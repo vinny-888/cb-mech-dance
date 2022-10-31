@@ -5,7 +5,37 @@ import Stats from 'three/examples/jsm/libs/stats.module'
 import { GUI } from 'dat.gui'
 
 const scene = new THREE.Scene()
-scene.add(new THREE.AxesHelper(5))
+
+const color = 0xFFFFFF;
+const intensity = 2;
+const light = new THREE.AmbientLight(color, intensity);
+scene.add(light);
+
+scene.background = new THREE.CubeTextureLoader()
+	.setPath( 'models/' )
+	.load( [
+		'posx.jpg',
+		'negx.jpg',
+		'posy.jpg',
+		'negy.jpg',
+		'posz.jpg',
+		'negz.jpg'
+	] );
+
+let groundTexture = new THREE.TextureLoader().load( "./models/negy.jpg" );
+groundTexture.wrapS = groundTexture.wrapT = THREE.RepeatWrapping;
+groundTexture.repeat.set( 5, 5 );
+groundTexture.anisotropy = 16;
+groundTexture.encoding = THREE.sRGBEncoding;
+var groundMaterial = new THREE.MeshStandardMaterial( { map: groundTexture } );
+
+var mesh = new THREE.Mesh( new THREE.PlaneGeometry( 60, 120 ), groundMaterial );
+mesh.position.y = -5.0;
+mesh.rotation.x = - Math.PI / 2;
+mesh.receiveShadow = true;
+scene.add( mesh );
+
+//scene.add(new THREE.AxesHelper(5))
 
 const light1 = new THREE.PointLight(0xffffff, 2)
 light1.position.set(2.5, 2.5, 2.5)
@@ -49,8 +79,9 @@ gltfLoader.load(
         animationActions.push(animationAction)
         animationsFolder.add(animations, 'default')
         activeAction = animationActions[0]
-
-
+				gltf.scene.scale.set(5,5,5);
+				gltf.scene.position.y = -5;
+				gltf.scene.position.z = -10;
         scene.add(gltf.scene)
 
         //add an animation from another file
