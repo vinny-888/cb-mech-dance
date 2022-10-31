@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack serve --config ./src/client/webpack.dev.js",
-    "test": "webpack --config ./bundler/webpack.common.js",
     "prod": "NODE_ENV=production webpack --config ./src/client/webpack.prod.js"
   },
   "author": "",
