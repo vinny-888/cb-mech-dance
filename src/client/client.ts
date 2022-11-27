@@ -69,23 +69,34 @@ let lastAction: THREE.AnimationAction
 const gltfLoader = new GLTFLoader()
 
 gltfLoader.load(
-    'models/vanguard.glb',
+    'models/mech.glb',
     (gltf) => {
+
+        gltfLoader.load(
+            'models/mech2.glb',
+            (gltf2) => {
         // gltf.scene.scale.set(.01, .01, .01)
 
-        mixer = new THREE.AnimationMixer(gltf.scene)
+        // mixer = new THREE.AnimationMixer(gltf.scene)
 
-        const animationAction = mixer.clipAction((gltf as any).animations[0])
-        animationActions.push(animationAction)
-        animationsFolder.add(animations, 'default')
-        activeAction = animationActions[0]
-				gltf.scene.scale.set(5,5,5);
-				gltf.scene.position.y = -5;
-				gltf.scene.position.z = -10;
+        // const animationAction = mixer.clipAction((gltf as any).animations[0])
+        // animationActions.push(animationAction)
+        // animationsFolder.add(animations, 'default')
+        // activeAction = animationActions[0]
+        gltf.scene.scale.set(50,50,50);
+        gltf.scene.position.x = 17.5;
+        gltf.scene.position.y = 24;
+        gltf.scene.position.z = -30;
         scene.add(gltf.scene)
 
+        gltf2.scene.scale.set(0.45,0.45,0.45);
+        gltf2.scene.position.x = -17.5;
+        gltf2.scene.position.y = 24;
+        gltf2.scene.position.z = -30;
+        scene.add(gltf2.scene)
+
         //add an animation from another file
-        gltfLoader.load(
+        /*gltfLoader.load(
             'models/vanguard@samba.glb',
             (gltf) => {
                 console.log('loaded samba')
@@ -144,6 +155,14 @@ gltfLoader.load(
             (error) => {
                 console.log(error)
             }
+        )*/
+        },
+        (xhr) => {
+            console.log((xhr.loaded / xhr.total) * 100 + '% loaded')
+        },
+        (error) => {
+            console.log(error)
+        }
         )
     },
     (xhr) => {
